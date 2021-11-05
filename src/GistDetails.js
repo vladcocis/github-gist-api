@@ -84,7 +84,7 @@ function GistDetails({ details, loading }) {
             <div className="details-row">
                 <label className="label">Filetypes:</label>
                 {/* <span className="value">{getLanguage(details)} </span> */}
-                <ul>{displayLanguages()}</ul>
+                <ul >{displayLanguages()}</ul>
             </div>
             <div className="details-row">
                 <label className="label">Last 3 Forks:</label>

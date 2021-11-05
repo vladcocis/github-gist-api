@@ -144,7 +144,7 @@
 
 .gist-details-container {
   height: 100%;
-  width: 25%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,7 +171,7 @@
 
 .loader {
   color: salmon;
-  margin-left: 5%;
+  width: 50%;
 }
 
 ul li {
