@@ -1,23 +1,32 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 import GistDetails from "./GistDetails";
 import './App.css';
 
-function App() {
-
+const App = () => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [gists, setGists] = useState([]);
   const [details, setDetails] = useState({});
   const [detailsLoading, setDetailsLoading] = useState(false);
+  const [forks, setForks] = useState([]);
 
-  function handleSubmit(e){
+  const [lengthError, setLengthError] = useState(false)
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     searchGists();
   };
 
-  function searchGists(){
+  const searchGists = () => {
+    if (!username.trim().length) {
+      setLengthError(true);
+      return;
+    }
+
+    setLengthError(false);
     setLoading(true);
+
     axios({
       method: "get",
       url: `https://api.github.com/users/${username}/gists`,
@@ -27,17 +36,26 @@ function App() {
     });
   }
 
-  function renderGist(gist){
-    return(
-      <div className="row" onClick={()=> getDetails(gist.id)} key ={gist.id}>
-      <h2 className="gist-name">
-        {gist.id}
-      </h2>
+  const searchForks = (gistID) => {
+    axios({
+      method: "get",
+      url: `https://api.github.com/gists/${gistID}/forks`,
+    }).then(res => {
+      setForks(res.data);
+    }).catch((err) => console.error(err));
+  }
+
+  const renderGist = (gist) => {
+    return (
+      <div className="row" onClick={() => getDetails(gist.id)} key={gist.id}>
+        <h2 className="gist-name">
+          {gist.id}
+        </h2>
       </div>
     );
   }
 
-  function getDetails(gistID){
+  const getDetails = (gistID) => {
     setDetailsLoading(true);
     axios({
       method: "get",
@@ -46,28 +64,30 @@ function App() {
       setDetailsLoading(false);
       setDetails(res.data);
     });
+
+    searchForks(gistID);
   }
 
   return (
-   <div className="main">
+    <div className="main">
       <div className="landing-page-container">
-        <div className= "left-side">
+        <div className="left-side">
           <form className="form">
             <input
-            className="search-box"
-            value = {username}
-            placeholder = "GitHub Username"
-            onChange ={e => setUsername(e.target.value)}
+              className={`search-box ${lengthError ? 'input-error' : null}`}
+              value={username}
+              placeholder={lengthError ? 'Username cannot be empty.' : 'GitHub Username'}
+              onChange={e => setUsername(e.target.value)}
             />
-            <button className ="submit-button" onClick={handleSubmit}>{loading ? "Searching..." : "Search"}</button>
+            <button className="submit-button" onClick={handleSubmit}>{loading ? "Searching..." : "Search"}</button>
           </form>
-          <div className ="results-container">
-              {gists.map(renderGist)}
+          <div className="results-container">
+            {gists.map(renderGist)}
           </div>
         </div>
-        <GistDetails details={details} loading={detailsLoading}/>
+        <GistDetails details={details} loading={detailsLoading} forks={forks} />
       </div>
-   </div>
+    </div>
   );
 }
 
