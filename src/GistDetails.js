@@ -2,11 +2,13 @@ import _ from 'lodash';
 import './App.css';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import axios from "axios";
 
 
 function GistDetails({ details, loading }) {
     const [files, setFiles] = useState([]);
     const [languages, setLanguages] = useState([]);
+    const [forks, setForks] = useState([]);
 
     useEffect(() => {
         const tmp_files = [], tmp_languages = [];
@@ -18,6 +20,7 @@ function GistDetails({ details, loading }) {
 
         setFiles(tmp_files);
         setLanguages(tmp_languages);
+        searchForks(details.id);
 
     }, [details])
 
@@ -26,7 +29,6 @@ function GistDetails({ details, loading }) {
             <h1 className="loader">Loading...</h1>
         )
     }
-
     const displayFiles = () => {
         return _.map(files, (it) => (
             <li>{it}</li>
@@ -37,6 +39,30 @@ function GistDetails({ details, loading }) {
         return _.map(_.uniq(languages), (it) => (
             <li>{it}</li>
         ));
+    }
+
+    function searchForks(gistID) {
+        axios({
+            method: "get",
+            url: `https://api.github.com/gists/${gistID}/forks`,
+        }).then(res => {
+            setForks(res.data);
+        });
+    }
+
+    const openInNewTab = (url) => {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+        if (newWindow) newWindow.opener = null
+      }
+
+    function renderFork(fork) {
+        return ( 
+            <li onClick={() => openInNewTab(fork.html_url)}>
+                {fork.owner.login} 
+                &nbsp;
+                <img src={fork.owner.avatar_url} width="20" height="20" alt={fork.owner.id} />
+            </li>
+        );
     }
 
     return (
@@ -56,7 +82,8 @@ function GistDetails({ details, loading }) {
                 <ul>{displayLanguages()}</ul>
             </div>
             <div className="details-row">
-                <label className="label">Forks:</label>
+                <label className="label">Last 3 Forks:</label>
+                <ul>{forks.slice(0).reverse().slice(0,3).map(renderFork)}</ul>
             </div>
         </div>
     )
