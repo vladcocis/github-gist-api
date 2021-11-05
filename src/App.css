@@ -1,41 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .main {
   height: 100vh;
   width: 100%;
@@ -46,7 +8,7 @@
   min-height: 100%;
   width: 100%;
   display: flex;
-  background-color: #282D35;
+  background-color: #0e1117;
   overflow-y: scroll;
 }
 
@@ -55,7 +17,7 @@
   width: 75%;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid salmon;
+  border-right: 1px solid #589fff;
 }
 
 .form {
@@ -69,31 +31,25 @@
 .search-box {
   width: 30%;
   height: 40px;
-  border: none;
+  border: white;
   border-radius: 6px;
   font-size: 18px;
   padding-left: 10px;
-  background-color: rgba(255, 255, 255, .3);
-  color: salmon;
+  background-color: #171b22;
+  color: white;
 }
-
-.input:focus {
-  border: 1px solid salmon;
-  outline: none;
-}
-
 .input::placeholder {
-  color: #282D35;
+  color: #0e1117;
 }
 
 .submit-button {
   height: 100%;
   width: 10%;
-  background-color: salmon;
+  background-color: #589fff;
   border-radius: 5px;
   border: none;
   font-size: 18px;
-  color: #282D35;
+  color: #0e1117;
   box-sizing: content-box;
   margin-left: 10px;
   cursor: pointer;
@@ -115,8 +71,7 @@
 .row {
   display: flex;
   cursor: pointer;
-  width: 44%;
-  height: 45px;
+  
   margin-top: 10px;
   background-color: transparent;
   border-radius: 5px;
@@ -126,16 +81,16 @@
 }
 
 .row > h2 {
-  color: salmon;
+  color: white;
   pointer-events: auto;
 }
 
 .row:hover {
-  background-color: salmon;
+  background-color: white;
 }
 
 .row > h2:hover {
-  color: #282D35;
+  color: #0e1117;
 }
 
 .gist-name {
@@ -151,7 +106,6 @@
 }
 
 .details-row {
-  /* height: 20px; */
   height: auto;
   width: 70%;
   display: flex;
@@ -166,14 +120,14 @@
 }
 
 .value {
-  color: salmon;
+  color: white;
 }
 
 .loader {
-  color: salmon;
+  color: white;
   width: 50%;
 }
 
 ul li {
-  color: salmon;
+  color: white;
 }
