@@ -9,17 +9,20 @@ function GistDetails({ details, loading }) {
     const [files, setFiles] = useState([]);
     const [languages, setLanguages] = useState([]);
     const [forks, setForks] = useState([]);
+    const [urls, setUrls] = useState([]);
 
     useEffect(() => {
-        const tmp_files = [], tmp_languages = [];
+        const tmp_files = [], tmp_languages = [], tmp_urls =[];
 
         _.map(details.files, (it) => {
             tmp_files.push(it.filename);
             tmp_languages.push(it.language);
+            tmp_urls.push(it.raw_url);
         });
 
         setFiles(tmp_files);
         setLanguages(tmp_languages);
+        setUrls(tmp_urls);
         searchForks(details.id);
 
     }, [details])
@@ -30,14 +33,16 @@ function GistDetails({ details, loading }) {
         )
     }
     const displayFiles = () => {
+        let i=0;
         return _.map(files, (it) => (
-            <li>{it}</li>
+            
+            <li  onClick={() => openInNewTab(urls[i++])} key={it}>{it} </li>
         ));
     }
 
     const displayLanguages = () => {
         return _.map(_.uniq(languages), (it) => (
-            <li>{it}</li>
+            <li key={it}>{it}</li>
         ));
     }
 
@@ -57,7 +62,7 @@ function GistDetails({ details, loading }) {
 
     function renderFork(fork) {
         return ( 
-            <li onClick={() => openInNewTab(fork.html_url)}>
+            <li key={fork.id} onClick={() => openInNewTab(fork.html_url)}>
                 {fork.owner.login} 
                 &nbsp;
                 <img src={fork.owner.avatar_url} width="20" height="20" alt={fork.owner.id} />
